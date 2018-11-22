@@ -11,7 +11,7 @@ function writeCode(prefix, code, fn) {
             window.clearInterval(id)
             fn.call()
         }
-    }, 10)
+    }, 0)
 }
 function wirteMarkdown(markdown,fn){
     let domPaper = document.querySelector('#paper>.content')
@@ -24,7 +24,7 @@ function wirteMarkdown(markdown,fn){
             window.clearInterval(id)
             fn.call()
         }
-    }, 10)
+    }, 0)
 }
 
 var result = `/*
@@ -94,16 +94,16 @@ var result2 = `
     #paper {}
     `
 var md = `
-    # 标题一
-    啊啊啊啊啊啊啊啊
-    颠三倒四多所多
-    sdsfsf
+# 标题一
+啊啊啊啊啊啊啊啊
+颠三倒四多所多
+sdsfsf
 
-    过的地方发生的
+过的地方发生的
 `
 writeCode('', result, () => {
     createPaper(() => {
-        writeCode(result, result2,()=>{
+        writeCode(result, result2, ()=>{
             wirteMarkdown(md)
         })
     })
