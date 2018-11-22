@@ -1,3 +1,18 @@
+function writeCode(prefix,code,fn){
+    let domCode = document.querySelector('#code')
+    domCode.innerHTML = prefix || ''
+    let n = 0
+    let id = setInterval(()=>{
+    n += 1
+    domCode.innerHTML = Prism.highlight(prefix + code.slice(0,n), Prism.languages.css)
+    styleTag.innerHTML = prefix + code.slice(0, n)
+    if (n >= result.length){
+        window.clearInterval(id)
+        fn.call()
+    }
+},10)
+}
+
 var result = `/*
 * 面试官你好，我是文登
 * 我将以动画的形式来介绍我自己
@@ -40,33 +55,28 @@ html {
 /* 我需要一张白纸 */
 
 `
-var n = 0
-var id = setInterval(()=>{
-    n += 1
-    code.innerHTML = result.slice(0,n)
-    code.innerHTML = Prism.highlight(code.innerHTML, Prism.languages.css)
-    styleTag.innerHTML = result.slice(0, n)
-    if (n >= result.length){
-        window.clearInterval(id)
-        fn2()
-        fn3(result)
-    }
-},10)
-
-function fn2(){
-    var paper = document.createElement('div')
-    paper.id = 'paper'
-    document.body.appendChild(paper)
-}
-
-function fn3(preResult){
-    var result2 = `
+var result2 = `
     #paper {
         width: 100px;
         height: 100px;
         background: white;
     }
     `
+writeCode('',result,()=>{
+    createPaper( ()=>{
+        writeCode(result,result2)
+    })
+})
+
+function createPaper(fn){
+    var paper = document.createElement('div')
+    paper.id = 'paper'
+    document.body.appendChild(paper)
+    fn.call()
+}
+
+function fn3(preResult){
+    
     var n = 0
     var id = setInterval(()=>{
         n += 1
