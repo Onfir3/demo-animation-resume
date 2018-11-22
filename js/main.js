@@ -91,12 +91,15 @@ html {
 }
 `
 var result2 = `
-    #paper {
-        
-    }
+    #paper {}
     `
 var md = `
     # 标题一
+    啊啊啊啊啊啊啊啊
+    颠三倒四多所多
+    sdsfsf
+
+    过的地方发生的
 `
 writeCode('', result, () => {
     createPaper(() => {
@@ -109,23 +112,9 @@ writeCode('', result, () => {
 function createPaper(fn) {
     var paper = document.createElement('div')
     paper.id = 'paper'
-    var content = document.createElement('div')
+    var content = document.createElement('pre')
     content.className = 'content'
     paper.appendChild(content)
     document.body.appendChild(paper)
     fn.call()
-}
-
-function fn3(preResult) {
-
-    var n = 0
-    var id = setInterval(() => {
-        n += 1
-        code.innerHTML = preResult + result2.slice(0, n)
-        code.innerHTML = Prism.highlight(code.innerHTML, Prism.languages.css)
-        styleTag.innerHTML = preResult + result2.slice(0, n)
-        if (n >= result2.length) {
-            window.clearInterval(id)
-        }
-    }, 500)
 }
