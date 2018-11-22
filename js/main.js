@@ -5,6 +5,7 @@ function writeCode(prefix,code,fn){
     let id = setInterval(()=>{
     n += 1
     domCode.innerHTML = Prism.highlight(prefix + code.slice(0,n), Prism.languages.css)
+    domCode.scrollTop = domCode.scrollHeight
     styleTag.innerHTML = prefix + code.slice(0, n)
     if (n >= result.length){
         window.clearInterval(id)
