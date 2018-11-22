@@ -3,11 +3,12 @@ function writeCode(prefix, code, fn) {
     domCode.innerHTML = prefix || ''
     let n = 0
     let id = setInterval(() => {
+        console.log('reday')
         n += 1
         domCode.innerHTML = Prism.highlight(prefix + code.substring(0, n), Prism.languages.css)
         domCode.scrollTop = domCode.scrollHeight
         styleTag.innerHTML = prefix + code.substring(0, n)
-        if (n >= result.length) {
+        if (n >= code.length) {
             window.clearInterval(id)
             fn.call()
         }
@@ -17,6 +18,7 @@ function wirteMarkdown(markdown,fn){
     let domPaper = document.querySelector('#paper>.content')
     let n = 0
     let id = setInterval(() => {
+        console.log('开始')
         n += 1
         domPaper.innerHTML = markdown.substring(0, n)
         domPaper.scrollTop = domPaper.scrollHeight
@@ -103,7 +105,9 @@ sdsfsf
 `
 writeCode('', result, () => {
     createPaper(() => {
+        console.log('第一遍')
         writeCode(result, result2, ()=>{
+            console.log('结束')
             wirteMarkdown(md)
         })
     })
