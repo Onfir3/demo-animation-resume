@@ -1,17 +1,30 @@
-function writeCode(prefix,code,fn){
+function writeCode(prefix, code, fn) {
     let domCode = document.querySelector('#code')
     domCode.innerHTML = prefix || ''
     let n = 0
-    let id = setInterval(()=>{
-    n += 1
-    domCode.innerHTML = Prism.highlight(prefix + code.slice(0,n), Prism.languages.css)
-    domCode.scrollTop = domCode.scrollHeight
-    styleTag.innerHTML = prefix + code.slice(0, n)
-    if (n >= result.length){
-        window.clearInterval(id)
-        fn.call()
-    }
-},10)
+    let id = setInterval(() => {
+        n += 1
+        domCode.innerHTML = Prism.highlight(prefix + code.substring(0, n), Prism.languages.css)
+        domCode.scrollTop = domCode.scrollHeight
+        styleTag.innerHTML = prefix + code.substring(0, n)
+        if (n >= result.length) {
+            window.clearInterval(id)
+            fn.call()
+        }
+    }, 10)
+}
+function wirteMarkdown(markdown,fn){
+    let domPaper = document.querySelector('#paper>.content')
+    let n = 0
+    let id = setInterval(() => {
+        n += 1
+        domPaper.innerHTML = markdown.substring(0, n)
+        domPaper.scrollTop = domPaper.scrollHeight
+        if (n >= markdown.length) {
+            window.clearInterval(id)
+            fn.call()
+        }
+    }, 10)
 }
 
 var result = `/*
@@ -54,38 +67,65 @@ html {
 
 /* 好了好了不玩了，介绍一下我自己*/
 /* 我需要一张白纸 */
-
+#code {
+    position: fixed;
+    left: 0;
+    width: 50%;
+    height: 100%
+}
+#paper {
+    position: fixed;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    background: #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+#paper > .content {
+    background: white;
+    height: 100%;
+    width: 100%;
+}
 `
 var result2 = `
     #paper {
-        width: 100px;
-        height: 100px;
-        background: white;
+        
     }
     `
-writeCode('',result,()=>{
-    createPaper( ()=>{
-        writeCode(result,result2)
+var md = `
+    # 标题一
+`
+writeCode('', result, () => {
+    createPaper(() => {
+        writeCode(result, result2,()=>{
+            wirteMarkdown(md)
+        })
     })
 })
 
-function createPaper(fn){
+function createPaper(fn) {
     var paper = document.createElement('div')
     paper.id = 'paper'
+    var content = document.createElement('div')
+    content.className = 'content'
+    paper.appendChild(content)
     document.body.appendChild(paper)
     fn.call()
 }
 
-function fn3(preResult){
-    
+function fn3(preResult) {
+
     var n = 0
-    var id = setInterval(()=>{
+    var id = setInterval(() => {
         n += 1
-        code.innerHTML = preResult + result2.slice(0,n)
+        code.innerHTML = preResult + result2.slice(0, n)
         code.innerHTML = Prism.highlight(code.innerHTML, Prism.languages.css)
         styleTag.innerHTML = preResult + result2.slice(0, n)
-        if(n >= result2.length){
+        if (n >= result2.length) {
             window.clearInterval(id)
         }
-    },500)
+    }, 500)
 }
